@@ -1,29 +1,15 @@
-// Set up MySQL connection.
-var mysql = require("mysql");
+// Set up Sequelize connection.
+var Sequelize = require("sequelize");
+var sequelize;
+var env       = process.env.NODE_ENV || 'development';
+var config    = require(__dirname + '/../config/config.json')[env];
+var db        = {};
 
-var connection;
-if(process.env.JAWSDB_URL) {
-  connection = mysql.createConnection(process.env.JAWSDB_URL);
-}
-else {
-  connection = mysql.createConnection({
-   port: 3306,
-   host: "localhost",
-   user: "root",
-   password: "4984",
-   database: "burgers_db"
- });
+if (config.use_env_variable) {
+  var sequelize = new Sequelize(process.env[config.use_env_variable]);
+} else {
+  var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
 
-// Make connection.
-connection.connect(function(err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
-});
-
-// Export connection for our DAO to use.
-module.exports = connection;
+module.exports = sequelize;

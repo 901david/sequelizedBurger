@@ -4,7 +4,7 @@ var methodOverride = require("method-override");
 var PORT = process.env.PORT || 3000;
 var exphbs = require("express-handlebars");
 var app = express();
-// var routes = require("./controllers/burgers_controller.js");
+var db = require('./config/connection.js');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
@@ -15,8 +15,23 @@ app.set("view engine", "handlebars");
 var routes = require("./controllers/burgers_controller.js");
 
 app.use("/", routes);
+var Sequelize = require('sequelize');
+const sequelize = new Sequelize('burgers_db', 'root', '4984', {
+  host: 'localhost',
+  dialect: 'mysql',
 
-
-app.listen(PORT, ()=>{
-  console.log("Server up and Running on Port: " + PORT);
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  }
 });
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });

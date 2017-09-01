@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "4984",
+    "database": "burger_db",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "4984",
+    "database": "burger_db",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "4984",
+    "database": "burger_db",
+    "host": "JAWSDB_URL",
+    "dialect": "mysql"
+  }
+}

@@ -1,27 +1,27 @@
-
-var dao = require('../config/dao.js');
-
-var burger = {
-  all: function(callback) {
-    dao.selectAll("burgers", (res)=> {
-      callback(res);
-    });
-  },
-  create: function (req, callback)
-  {
-    dao.insertOne("burgers", req, (res)=> {
-      callback(res)
-    });
-  },
-  update: function (objColVals, condition, callback) {
-    dao.updateOne("burgers", objColVals, condition, (res)=> {
-      callback(res)
-    });
-  },
-  delete: function (req, callback) {
-    dao.deleteOne("burgers", req, (res)=> {
-      callback(res)
-    });
-  }
+function(sequelize, DataTypes) {
+  var Burgers = sequelize.define("burgers", {
+    burger_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        is: ["^[a-z]+$",'i']
+      }
+    },
+    devoured: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
+  });
+  return Burgers;
 };
-module.exports = burger;
+
+
+// force: true will drop the table if it already exists
+Burgers.sync({force: false}).then(() => {
+  // Table created
+  return Burgers.create({
+    burger_name: 'Cheeseburger',
+    devoured: false
+  });
+});
