@@ -1,4 +1,4 @@
-Visit Application: https://eat-da-burgers-.herokuapp.com/
+
 
 # Eat-Da-Burger Web Application - Sequelized Version
 
